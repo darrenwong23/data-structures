@@ -10,18 +10,37 @@ var doublyLinkedList = function(){
     if (this.head === null) {
       this.head = newTail;
     } else {
-      // only do this is "list" is non-empty
+      // only do this if "list" is non-empty
       oldTail.next = newTail;
+
+      newTail.prev = oldTail;
     }
   };
 
+  list.addToHead = function(value) {
+    var oldHead = this.head;
+    var newHead = Node(value);
+
+    this.head = newHead;
+
+    if(this.head === null) {
+      this.tail = newHead;
+
+    } else {
+      oldHead.prev = newHead;
+      newHead.next = oldHead;
+    }
+
+  }
+
   list.removeHead = function(){
+          var result = this.head.value;
+
     if(this.head === null) {
       // if empty, do nothing
     } else if (this.tail === this.head) {
       //if 1 element
       this.tail = null;
-      var result = this.head.value;
       this.head = null;
       return result;
     } else {
@@ -30,6 +49,22 @@ var doublyLinkedList = function(){
       return this.head.value;
     }
   };
+
+  list.removeTail = function() {
+          var result = this.tail.value;
+
+    if(this.head === null) {
+      //if empty do nothing
+    } else if (this.tail === this.head) {
+      //if 1 element
+      this.tail = null
+      return result;
+    } else {
+      //if more than 1 element
+      this.tail = this.tail.prev;
+      return result;
+    }
+  }
 
   list.contains = function(target){
     var currentNode = this.head;
@@ -49,7 +84,9 @@ var Node = function(value){
   var node = {};
 
   node.value = value;
+
   node.next = null;
+  node.prev = null;
 
   return node;
 };
