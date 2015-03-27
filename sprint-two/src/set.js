@@ -7,6 +7,7 @@ var Set = function(){
 var setPrototype = {};
 
 setPrototype.add = function(item) {
+  item = JSON.stringify(item);
   if(item in this.storage) {
     // do nothing
   } else {
@@ -15,10 +16,12 @@ setPrototype.add = function(item) {
 };
 
 setPrototype.contains = function(item) {
+  item = JSON.stringify(item);
   return this.storage[item] ? true : false;
 };
 
 setPrototype.remove = function(item) {
+  item = JSON.stringify(item);
   delete this.storage[item];
 };
 
