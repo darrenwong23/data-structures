@@ -1,40 +1,3 @@
-
-
-
-var BoomFilter = function (m , k) {
-  this.bitVector = [];
-  this.bitVector[m-1] = undefined;
-  this.k = k;
-  this.m = m;
-};
-
-
-BoomFilter.prototype.add = function(msg) {
-  for(var i = 0; i< k; i++) {
-    this.bitVector.push(hashCode(msg,k,m));
-  }
-
-
-};
-
-BoomFilter.prototype.check = function(msg) {
-
-};
-
-
-/**check code**/
-
-var boom = new BoomFilter(18, 3);
-console.dir(boom.bitVector);
-
-boom.add("sexy ");
-console.dir(boom.bitVector);
-
-
-
-
-
-
 /**
 HashCode stuff
 **/
@@ -204,3 +167,46 @@ if (typeof String.prototype.utf8Decode == 'undefined') {
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 if (typeof module != 'undefined' && module.exports) module.exports = Sha1; // CommonJs export
 if (typeof define == 'function' && define.amd) define([], function() { return Sha1; }); // AMD
+
+
+var BoomFilter = function (m , k) {
+  this.bitVector = [];
+  this.bitVector[m-1] = undefined;
+  this.k = k;
+  this.m = m;
+};
+
+
+BoomFilter.prototype.add = function(msg) {
+  for(var i = 0; i< this.k; i++) {
+    this.bitVector[hashCode(msg,i,this.m)] = true;
+  }
+
+
+};
+
+BoomFilter.prototype.check = function(msg) {
+
+  for(var i = 0; i< this.k; i++) {
+    if(!this.bitVector[hashCode(msg,i,this.m)]) return false;
+  }
+
+  return true;
+};
+
+
+/**check code**/
+
+var boom = new BoomFilter(18, 3);
+console.log(boom.bitVector);
+
+boom.add("sexy ");
+console.log(boom.bitVector);
+
+console.log(boom.check("sexy "));
+
+
+
+
+
+
