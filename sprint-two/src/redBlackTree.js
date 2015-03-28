@@ -1,20 +1,12 @@
 var rbTree = function (rootValue) {
 
-  this.root = new Tnode(rootValue, 1);
+  this.root = new Tnode(rootValue, 'black');
 
 };
 
-rbTree.prototype.leftRotate = function() {
-
-
-};
-
-rbTree.prototype.rightRotate = function() {
-
-};
 
 rbTree.prototype.insert = function(value, node) {
-  node = node || this.root;
+  //node = node || this.root;
 
   if (value === node.value) {
     // do nothing because node value already exists
@@ -44,10 +36,11 @@ rbTree.prototype.add = function(value) {
 
   //1) perform std BST insertioins and made the color of newly inserted as red
   var node = rbTree.prototype.insert(value, this.root);
-
+  6rxc7ufg/i
   //2)fix Insert
 
-  //rbTree.prototype.fixInsert(this.root, node);
+  debugger;
+  rbTree.prototype.fixInsert(this.root, node);
 
 }
 
@@ -56,8 +49,10 @@ rbTree.prototype.fixInsert = function(root, node) {
 
   //if(node.value ===1) debugger;
 
+
   //iterate until node is not the root and z's parent color is red
   while ( node !== root && node.parent.color === 'red') {
+
 
     var uncle;
     //find uncle and store uncle in y
@@ -67,29 +62,78 @@ rbTree.prototype.fixInsert = function(root, node) {
       uncle = node.parent.parent.left;
     }
 
-    // if uncle is RED, do following
+
+    //uncle is black
+    if (uncle === null || uncle.color === 'black') {
+      var x = node;
+      //left left
+      //1right rotate g
+      //2swap colors of g and p
+
+       if (x.parent.left === x && x.parent.parent.left === x.parent) {
+        var color = x.parent.color;
+        x.parent.color = x.parent.parent.color;
+        x.parent.parent.color = color;
+
+
+        rbTree.prototype.rightRotate(root, x.parent.parent);
+      }
+
+      else if (x.parent.right === x && x.parent.parent.right === x.parent) {
+        var color = x.parent.color;
+        x.parent.color = x.parent.parent.color;
+        x.parent.parent.color = color;
+
+
+        rbTree.prototype.leftRotate(root, x.parent.parent);
+      }
+
+      //left right
+      //lswap node and gp
+      // left rotate parent
+      //right rotate gp
+      else if (x.parent === x.parent.parent.left && x.parent.right === x) {
+        var color = x.color;
+        x.color = x.parent.parent.color;
+        x.parent.parent.color = color;
+
+        rbTree.prototype.leftRotate(root, x.parent);
+        rbTree.prototype.rightRotate(root, x.parent.parent);
+
+      }
+
+      //right left
+      //lswap node and gp
+      // right rotate parent
+      //left rotate gp
+      else if (x.parent === x.parent.parent.right && x.parent.left === x) {
+        var color = x.color;
+        x.color = x.parent.parent.color;
+        x.parent.parent.color = color;
+
+        rbTree.prototype.rightRotate(root, x.parent);
+        rbTree.prototype.leftRotate(root, x.parent.parent);
+      }
+
+
+    } else {
+          // if uncle is RED, do following
     //i) change color of parent and uncle as BLACK
     //ii) change color of gp as RED
     //iii) move z to grand parent
-    if (uncle.color === 'red') {
       node.parent.color = 'black';
       uncle.color = 'black';
 
       node.parent.parent.color = 'red';
 
       node = node.parent.parent;
-    }
-
-    else {
-
-
 
     }
 
 
   }// end of while loop
 
-  this.root.color
+  root.color = 'black';
 
 };
 
@@ -111,7 +155,7 @@ rbTree.prototype.leftRotate = function(root, x) {
 
   //if x's parent is null make y root of the rbTree
   if(x.parent === null) {
-    this.root = y;
+    root = y;
   }
   //replace y with x
   else if (x === x.parent.left) {
@@ -141,7 +185,7 @@ rbTree.prototype.rightRotate = function(root, y) {
   x.parent = y.parent;
 
   if(x.parent === null) {
-    this.root = x;
+    root = x;
   }
   else if (y === y.parent.left) {
     y.parent.left = x;
@@ -161,7 +205,7 @@ rbTree.prototype.remove = function() {
 
 
 rbTree.prototype.contains = function(value, node) {
-    node = node || this.root;
+   node = node || this.root;
     if (value === node.value) {
     return true;
   } else if (value < node.value) {

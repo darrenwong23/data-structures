@@ -82,19 +82,16 @@ describe('redBlackTree', function() {
     redBlackTree.root.color = 'black';
     var func = function(value){ array.push(value); };
 
+    debugger;
+    redBlackTree.add(20);
+    redBlackTree.add(30);
+    // redBlackTree.add(15);
 
-    redBlackTree.add(8);
-    redBlackTree.add(9);
-    redBlackTree.add(4);
-    redBlackTree.add(12);
 
-    redBlackTree.rightRotate(redBlackTree.root,redBlackTree.root );
-
-    redBlackTree.bfs(func);
-array = [];
-    redBlackTree.leftRotate(redBlackTree.root,redBlackTree.root );
 
     redBlackTree.bfs(func);
+
+
     expect(array).to.eql([5,2,1,6]);
 
 
